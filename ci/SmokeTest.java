@@ -20,6 +20,15 @@ public class SmokeTest {
         }
     }
 
+    static void checkBool(String label, boolean expected, Boolean actual) {
+        if (actual != null && expected == actual) {
+            passed++;
+        } else {
+            failed++;
+            System.out.printf("  FAIL: %s expected=%s got=%s%n", label, expected, actual);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         String apiKey = System.getenv("MAILODDS_TEST_KEY");
         if (apiKey == null || apiKey.isEmpty()) {
@@ -40,14 +49,29 @@ public class SmokeTest {
             {"test@freeprovider.mailodds.com", "valid", "accept", null},
         };
 
-        for (String[] c : cases) {
-            String domain = c[0].split("@")[1].split("\\.")[0];
+        // [free_provider, disposable, role_account, mx_found]
+        boolean[][] boolCases = {
+            {false, false, false, true},  // deliverable
+            {false, false, false, true},  // invalid
+            {false, false, false, true},  // risky
+            {false, true, false, true},   // disposable
+            {false, false, true, true},   // role
+            {false, false, false, true},  // timeout
+            {true, false, false, true},   // freeprovider
+        };
+
+        for (int i = 0; i < cases.length; i++) {
+            String domain = cases[i][0].split("@")[1].split("\\.")[0];
             try {
-                ValidateRequest req = new ValidateRequest(c[0], null);
+                ValidateRequest req = new ValidateRequest(cases[i][0], null);
                 ValidationResponse resp = api.validateEmail(req);
-                check(domain + ".status", c[1], resp.getStatus().getValue());
-                check(domain + ".action", c[2], resp.getAction().getValue());
-                check(domain + ".sub_status", c[3], resp.getSubStatus());
+                check(domain + ".status", cases[i][1], resp.getStatus().getValue());
+                check(domain + ".action", cases[i][2], resp.getAction().getValue());
+                check(domain + ".sub_status", cases[i][3], resp.getSubStatus());
+                checkBool(domain + ".free_provider", boolCases[i][0], resp.getFreeProvider());
+                checkBool(domain + ".disposable", boolCases[i][1], resp.getDisposable());
+                checkBool(domain + ".role_account", boolCases[i][2], resp.getRoleAccount());
+                checkBool(domain + ".mx_found", boolCases[i][3], resp.getMxFound());
             } catch (Exception e) {
                 failed++;
                 System.out.printf("  FAIL: %s error: %s%n", domain, e.getMessage());
