@@ -4,9 +4,9 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **matched** | **kotlin.Boolean** |  |  [optional] |
 | **matchType** | [**inline**](#MatchType) |  |  [optional] |
 | **matchValue** | **kotlin.String** |  |  [optional] |
+| **reason** | **kotlin.String** |  |  [optional] |
 
 
 <a id="MatchType"></a>

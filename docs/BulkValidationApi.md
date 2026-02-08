@@ -26,8 +26,8 @@ Cancel a pending or processing job. Partial results are preserved.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val jobId : kotlin.String = jobId_example // kotlin.String | 
@@ -74,8 +74,8 @@ Create a new bulk validation job by submitting a JSON array of emails.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val createJobRequest : CreateJobRequest =  // CreateJobRequest | 
@@ -122,8 +122,8 @@ Create a validation job from a file previously uploaded to S3.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val createJobFromS3Request : CreateJobFromS3Request =  // CreateJobFromS3Request | 
@@ -170,8 +170,8 @@ Create a new bulk validation job by uploading a CSV, Excel, or TXT file.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | CSV, Excel (.xlsx, .xls), ODS, or TXT file
@@ -222,8 +222,8 @@ Permanently delete a completed or cancelled job and its results.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val jobId : kotlin.String = jobId_example // kotlin.String | 
@@ -270,8 +270,8 @@ Get the status and details of a specific validation job.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val jobId : kotlin.String = jobId_example // kotlin.String | 
@@ -318,8 +318,8 @@ Download validation results in JSON, CSV, or NDJSON format.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val jobId : kotlin.String = jobId_example // kotlin.String | 
@@ -374,8 +374,8 @@ Get a presigned URL for uploading large files (&gt;10MB) directly to S3.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val getPresignedUploadRequest : GetPresignedUploadRequest =  // GetPresignedUploadRequest | 
@@ -422,8 +422,8 @@ List all validation jobs for the authenticated account.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = BulkValidationApi()
 val page : kotlin.Int = 56 // kotlin.Int | 

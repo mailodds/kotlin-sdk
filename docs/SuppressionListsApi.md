@@ -22,8 +22,8 @@ Add emails or domains to the suppression list.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SuppressionListsApi()
 val addSuppressionRequest : AddSuppressionRequest =  // AddSuppressionRequest | 
@@ -70,8 +70,8 @@ Check if an email is suppressed.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SuppressionListsApi()
 val checkSuppressionRequest : CheckSuppressionRequest =  // CheckSuppressionRequest | 
@@ -118,8 +118,8 @@ Get statistics about the suppression list.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SuppressionListsApi()
 try {
@@ -163,8 +163,8 @@ List all suppression entries for the account.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SuppressionListsApi()
 val page : kotlin.Int = 56 // kotlin.Int | 
@@ -217,8 +217,8 @@ Remove emails or domains from the suppression list.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SuppressionListsApi()
 val removeSuppressionRequest : RemoveSuppressionRequest =  // RemoveSuppressionRequest | 

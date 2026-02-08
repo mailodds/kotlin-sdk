@@ -19,8 +19,8 @@ Get validation metrics for your account. Useful for building dashboards and moni
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SystemApi()
 val window : kotlin.String = window_example // kotlin.String | Time window for metrics
@@ -67,8 +67,8 @@ Check API health status. No authentication required.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = SystemApi()
 try {

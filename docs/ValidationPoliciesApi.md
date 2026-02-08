@@ -27,8 +27,8 @@ Add a new rule to an existing policy.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val policyId : kotlin.Int = 56 // kotlin.Int | 
@@ -77,8 +77,8 @@ Create a new validation policy with rules.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val createPolicyRequest : CreatePolicyRequest =  // CreatePolicyRequest | 
@@ -125,8 +125,8 @@ Create a policy using a preset template.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val createPolicyFromPresetRequest : CreatePolicyFromPresetRequest =  // CreatePolicyFromPresetRequest | 
@@ -173,8 +173,8 @@ Delete a policy and all its rules.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val policyId : kotlin.Int = 56 // kotlin.Int | 
@@ -221,8 +221,8 @@ Delete a rule from a policy.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val policyId : kotlin.Int = 56 // kotlin.Int | 
@@ -271,8 +271,8 @@ Get a single policy with its rules.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val policyId : kotlin.Int = 56 // kotlin.Int | 
@@ -319,8 +319,8 @@ Get available preset templates for quick policy creation.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 try {
@@ -364,8 +364,8 @@ List all validation policies for your account. Includes plan limits.
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val includeRules : kotlin.Boolean = true // kotlin.Boolean | Include full rules in response
@@ -412,8 +412,8 @@ Test how a policy would evaluate a validation result without affecting productio
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val testPolicyRequest : TestPolicyRequest =  // TestPolicyRequest | 
@@ -460,8 +460,8 @@ Update a policy&#39;s settings (name, enabled, default).
 ### Example
 ```kotlin
 // Import classes:
-//import com.mailodds.infrastructure.*
-//import com.mailodds.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = ValidationPoliciesApi()
 val policyId : kotlin.Int = 56 // kotlin.Int | 
