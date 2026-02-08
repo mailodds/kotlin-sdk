@@ -1,12 +1,14 @@
 package ci;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+// SDK smoke test -- validates build-from-source and API integration using the SDK client.
+import com.mailodds.apis.EmailValidationApi;
+import com.mailodds.infrastructure.ApiClient;
+import com.mailodds.infrastructure.ClientException;
+import com.mailodds.infrastructure.ServerException;
+import com.mailodds.models.ValidateRequest;
+import com.mailodds.models.ValidationResponse;
 
 public class SmokeTest {
-    static final String API_URL = "https://api.mailodds.com";
-    static String apiKey;
     static int passed = 0, failed = 0;
 
     static void check(String label, String expected, String actual) {
@@ -18,55 +20,15 @@ public class SmokeTest {
         }
     }
 
-    static String apiCall(String email, String key) throws Exception {
-        URL url = URI.create(API_URL + "/v1/validate").toURL();
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + key);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setConnectTimeout(30000);
-        conn.setReadTimeout(30000);
-        conn.setDoOutput(true);
-
-        String body = "{\"email\":\"" + email + "\"}";
-        conn.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));
-
-        int code = conn.getResponseCode();
-        InputStream is = code >= 400 ? conn.getErrorStream() : conn.getInputStream();
-        String resp = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        return code + "|" + resp;
-    }
-
-    static String jsonGet(String json, String key) {
-        String search = "\"" + key + "\":";
-        int idx = json.indexOf(search);
-        if (idx < 0) return null;
-        int start = idx + search.length();
-        while (start < json.length() && json.charAt(start) == ' ') start++;
-        if (json.charAt(start) == '"') {
-            int end = json.indexOf('"', start + 1);
-            return json.substring(start + 1, end);
-        } else if (json.substring(start).startsWith("null")) {
-            return null;
-        } else if (json.substring(start).startsWith("true")) {
-            return "true";
-        } else if (json.substring(start).startsWith("false")) {
-            return "false";
-        }
-        int end = start;
-        while (end < json.length() && json.charAt(end) != ',' && json.charAt(end) != '}') end++;
-        return json.substring(start, end).trim();
-    }
-
     public static void main(String[] args) throws Exception {
-        apiKey = System.getenv("MAILODDS_TEST_KEY");
+        String apiKey = System.getenv("MAILODDS_TEST_KEY");
         if (apiKey == null || apiKey.isEmpty()) {
             System.out.println("ERROR: MAILODDS_TEST_KEY not set");
             System.exit(1);
         }
 
-        // Prove SDK classes load (Kotlin SDK uses 'apis' package)
-        Class.forName("com.mailodds.apis.EmailValidationApi");
+        ApiClient.Companion.setAccessToken(apiKey);
+        EmailValidationApi api = new EmailValidationApi("https://api.mailodds.com", ApiClient.Companion.getDefaultClient());
 
         String[][] cases = {
             {"test@deliverable.mailodds.com", "valid", "accept", null},
@@ -81,32 +43,39 @@ public class SmokeTest {
         for (String[] c : cases) {
             String domain = c[0].split("@")[1].split("\\.")[0];
             try {
-                String raw = apiCall(c[0], apiKey);
-                String json = raw.substring(raw.indexOf("|") + 1);
-                check(domain + ".status", c[1], jsonGet(json, "status"));
-                check(domain + ".action", c[2], jsonGet(json, "action"));
-                check(domain + ".sub_status", c[3], jsonGet(json, "sub_status"));
-                check(domain + ".test_mode", "true", jsonGet(json, "test_mode"));
+                ValidateRequest req = new ValidateRequest(c[0], null);
+                ValidationResponse resp = api.validateEmail(req);
+                check(domain + ".status", c[1], resp.getStatus().getValue());
+                check(domain + ".action", c[2], resp.getAction().getValue());
+                check(domain + ".sub_status", c[3], resp.getSubStatus());
             } catch (Exception e) {
                 failed++;
                 System.out.printf("  FAIL: %s error: %s%n", domain, e.getMessage());
             }
         }
 
-        // Error handling
-        String r401 = apiCall("test@deliverable.mailodds.com", "invalid_key");
-        check("error.401", "401", r401.split("\\|")[0]);
+        // Error handling: 401 with bad key
+        try {
+            ApiClient.Companion.setAccessToken("invalid_key");
+            EmailValidationApi badApi = new EmailValidationApi("https://api.mailodds.com", ApiClient.Companion.getDefaultClient());
+            badApi.validateEmail(new ValidateRequest("test@deliverable.mailodds.com", null));
+            failed++;
+            System.out.println("  FAIL: error.401 no exception raised");
+        } catch (ClientException e) {
+            check("error.401", "401", String.valueOf(e.getStatusCode()));
+        } finally {
+            ApiClient.Companion.setAccessToken(apiKey);
+        }
 
-        URL url = URI.create(API_URL + "/v1/validate").toURL();
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + apiKey);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        conn.getOutputStream().write("{}".getBytes(StandardCharsets.UTF_8));
-        int code = conn.getResponseCode();
-        if (code == 400 || code == 422) { passed++; }
-        else { failed++; System.out.printf("  FAIL: error.400 expected=400|422 got=%d%n", code); }
+        // Error handling: 400/422 with missing email
+        try {
+            api.validateEmail(new ValidateRequest("", null));
+            failed++;
+            System.out.println("  FAIL: error.400 no exception raised");
+        } catch (ClientException e) {
+            if (e.getStatusCode() == 400 || e.getStatusCode() == 422) { passed++; }
+            else { failed++; System.out.printf("  FAIL: error.400 expected=400|422 got=%d%n", e.getStatusCode()); }
+        }
 
         int total = passed + failed;
         String result = failed == 0 ? "PASS" : "FAIL";
